@@ -1,3 +1,4 @@
+from tkinter import CASCADE
 from django.db import models
 
 
@@ -29,3 +30,15 @@ class FoodItem(models.Model):
 
     def __str__(self):
         return self.name
+
+
+class Ingredient(models.Model):
+    amount = models.FloatField
+    recipe = models.ForeignKey(
+        Recipe, related_name="ingredients", on_delete=models.CASCADE
+    )
+    measure = models.ForeignKey(Measure, on_delete=models.PROTECT)
+    food = models.ForeignKey(FoodItem, on_delete=models.PROTECT)
+
+    def __str__(self):
+        return str(self.recipe) + " " + str(self.measure) + " " + str(self.food)
