@@ -1,2 +1,2 @@
-release: python.py migrate
+release: python manage.py migrate
 web: gunicorn scrumptious.wsgi
