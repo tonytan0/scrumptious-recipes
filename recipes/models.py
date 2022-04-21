@@ -33,7 +33,7 @@ class FoodItem(models.Model):
 
 
 class Ingredient(models.Model):
-    amount = models.FloatField
+    amount = models.FloatField()
     recipe = models.ForeignKey(
         Recipe, related_name="ingredients", on_delete=models.CASCADE
     )
@@ -50,6 +50,7 @@ class Step(models.Model):
     )
     order = models.PositiveSmallIntegerField()
     directions = models.TextField(max_length=300)
+    food_items = models.ManyToManyField("FoodItem", null=True, blank=True)
 
     def __str__(self):
         return (
