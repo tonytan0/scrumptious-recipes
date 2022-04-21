@@ -1,11 +1,9 @@
-from re import M
 from django.contrib import admin
+
 from recipes.models import Recipe, Measure, FoodItem, Ingredient, Step
 
 
 # Register your models here.
-
-
 class RecipeAdmin(admin.ModelAdmin):
     pass
 

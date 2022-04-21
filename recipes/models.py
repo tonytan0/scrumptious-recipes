@@ -1,10 +1,7 @@
-from tkinter import CASCADE
 from django.db import models
 
 
 # Create your models here.
-
-
 class Recipe(models.Model):
     name = models.CharField(max_length=125)
     author = models.CharField(max_length=100)
@@ -22,11 +19,11 @@ class Measure(models.Model):
     abbreviation = models.CharField(max_length=10, unique=True)
 
     def __str__(self):
-        return self.abbreviation + " for " + self.name
+        return self.name
 
 
 class FoodItem(models.Model):
-    name = models.CharField(max_length=100)
+    name = models.CharField(max_length=100, unique=True)
 
     def __str__(self):
         return self.name
@@ -35,28 +32,26 @@ class FoodItem(models.Model):
 class Ingredient(models.Model):
     amount = models.FloatField()
     recipe = models.ForeignKey(
-        Recipe, related_name="ingredients", on_delete=models.CASCADE
+        "Recipe",
+        related_name="ingredients",
+        on_delete=models.CASCADE,
     )
-    measure = models.ForeignKey(Measure, on_delete=models.PROTECT)
-    food = models.ForeignKey(FoodItem, on_delete=models.PROTECT)
+    measure = models.ForeignKey("Measure", on_delete=models.PROTECT)
+    food = models.ForeignKey("FoodItem", on_delete=models.PROTECT)
 
     def __str__(self):
-        return str(self.recipe) + " " + str(self.measure) + " " + str(self.food)
+        return str(self.amount) + " " + str(self.measure) + " " + str(self.food)
 
 
 class Step(models.Model):
     recipe = models.ForeignKey(
-        Recipe, related_name="steps", on_delete=models.CASCADE
+        "Recipe",
+        related_name="steps",
+        on_delete=models.CASCADE,
     )
     order = models.PositiveSmallIntegerField()
-    directions = models.TextField(max_length=300)
+    directions = models.CharField(max_length=300)
     food_items = models.ManyToManyField("FoodItem", null=True, blank=True)
 
     def __str__(self):
-        return (
-            str(self.recipe)
-            + " "
-            + str(self.order)
-            + " "
-            + str(self.directions)
-        )
+        return str(self.order) + ". " + self.directions
