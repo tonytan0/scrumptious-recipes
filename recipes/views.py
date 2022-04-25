@@ -1,7 +1,7 @@
 from django.shortcuts import redirect, render
 from django.urls import reverse_lazy
 from django.views.generic.detail import DetailView
-from django.views.generic.edit import CreateView, UpdateView
+from django.views.generic.edit import CreateView, DeleteView, UpdateView
 from django.views.generic.list import ListView
 
 
@@ -13,6 +13,16 @@ try:
 except Exception:
     RecipeForm = None
     Recipe = None
+
+
+def log_rating(request, recipe_id):
+    if request.method == "POST":
+        form = RatingForm(request.POST)
+        if form.is_valid():
+            rating = form.save(commit=False)
+            rating.recipe = Recipe.objects.get(pk=recipe_id)
+            rating.save()
+        return redirect("recipe_detail", pk=recipe_id)
 
 
 class RecipeListView(ListView):
@@ -30,16 +40,6 @@ class RecipeDetailView(DetailView):
         return context
 
 
-def log_rating(request, recipe_id):
-    if request.method == "POST":
-        form = RatingForm(request.POST)
-        if form.is_valid():
-            rating = form.save(commit=False)
-            rating.recipe = Recipe.objects.get(pk=recipe_id)
-            rating.save()
-    return redirect("recipe_detail", pk=recipe_id)
-
-
 class RecipeCreateView(CreateView):
     model = Recipe
     template_name = "recipes/new.html"
@@ -51,4 +51,10 @@ class RecipeUpdateView(UpdateView):
     model = Recipe
     template_name = "recipes/edit.html"
     fields = ["title", "author", "description", "image"]
+    success_url = reverse_lazy("recipes_list")
+
+
+class RecipeDeleteView(DeleteView):
+    model = Recipe
+    template_name = "recipes/delete.html"
     success_url = reverse_lazy("recipes_list")
