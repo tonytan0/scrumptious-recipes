@@ -1,7 +1,6 @@
 {% load static %}
 {% load markdownify %}
 
-
 <!DOCTYPE html>
 <html lang="en">
 
@@ -31,7 +30,7 @@
   </header>
   <main class="recipe-detail">
     {% if recipe.image %}
-    <img src="{{ recipe.image }}" class="pull-right">
+      <img src="{{ recipe.image }}" class="pull-right">
     {% endif %}
     <h1>{{ recipe.name }}</h1>
     <p>
@@ -44,7 +43,7 @@
       <button class="button">Rate</button>
     </form>
     <p>Tags: {% for tag in recipe.tags.all %}{{ tag.word }} {% endfor %}</p>
-    <p>{{ recipe.description | markdownify }}</p>
+    {{ recipe.description | markdownify }}
     <h2>Ingredients</h2>
     <table>
       <thead>
@@ -55,18 +54,18 @@
       </thead>
       <tbody>
         {% for ingredient in recipe.ingredients.all %}
-        <tr>
-          <td>{{ ingredient.amount }}</td>
-          <td>{{ ingredient.measure.name }}</td>
-          <td>{{ ingredient.food.name }}</td>
-        </tr>
+          <tr>
+            <td>{{ ingredient.amount }}</td>
+            <td>{{ ingredient.measure.name }}</td>
+            <td>{{ ingredient.food.name }}</td>
+          </tr>
         {% endfor %}
       </tbody>
     </table>
     <h2>Steps</h2>
     <ol>
       {% for step in recipe.steps.all %}
-      <li>{{ step.directions }}</li>
+        <li>{{ step.directions }}</li>
       {% endfor %}
     </ol>
   </main>

@@ -1,4 +1,5 @@
 from django.shortcuts import redirect, render
+
 from recipes.forms import RatingForm
 
 try:
@@ -53,7 +54,7 @@ def show_recipes(request):
 def show_recipe(request, pk):
     context = {
         "recipe": Recipe.objects.get(pk=pk) if Recipe else None,
-        "rating_form": RatingForm(),
+        "rating_form": RatingForm(),  # highlight
     }
     return render(request, "recipes/detail.html", context)
 
@@ -65,4 +66,4 @@ def log_rating(request, recipe_id):
             rating = form.save(commit=False)
             rating.recipe = Recipe.objects.get(pk=recipe_id)
             rating.save()
-        return redirect("recipe_detail", pk=recipe_id)
+    return redirect("recipe_detail", pk=recipe_id)
