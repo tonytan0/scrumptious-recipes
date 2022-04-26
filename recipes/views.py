@@ -1,9 +1,8 @@
-from django.shortcuts import redirect, render
+from django.shortcuts import redirect
 from django.urls import reverse_lazy
 from django.views.generic.detail import DetailView
 from django.views.generic.edit import CreateView, DeleteView, UpdateView
 from django.views.generic.list import ListView
-
 
 from recipes.forms import RatingForm
 
@@ -22,7 +21,7 @@ def log_rating(request, recipe_id):
             rating = form.save(commit=False)
             rating.recipe = Recipe.objects.get(pk=recipe_id)
             rating.save()
-        return redirect("recipe_detail", pk=recipe_id)
+    return redirect("recipe_detail", pk=recipe_id)
 
 
 class RecipeListView(ListView):
@@ -35,7 +34,7 @@ class RecipeDetailView(DetailView):
     model = Recipe
     template_name = "recipes/detail.html"
 
-    def get_context_date(self, **kwargs):
+    def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context["rating_form"] = RatingForm()
         return context
@@ -51,7 +50,7 @@ class RecipeCreateView(CreateView):
 class RecipeUpdateView(UpdateView):
     model = Recipe
     template_name = "recipes/edit.html"
-    fields = ["title", "author", "description", "image"]
+    fields = ["name", "author", "description", "image"]
     success_url = reverse_lazy("recipes_list")
 
 
