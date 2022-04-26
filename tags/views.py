@@ -2,6 +2,7 @@ from django.urls import reverse_lazy
 from django.views.generic.detail import DetailView
 from django.views.generic.edit import CreateView, DeleteView, UpdateView
 from django.views.generic.list import ListView
+from django.contrib.auth.mixins import LoginRequiredMixin
 
 from tags.models import Tag
 
@@ -18,7 +19,7 @@ class TagDetailView(DetailView):
     template_name = "tags/detail.html"
 
 
-class TagCreateView(CreateView):
+class TagCreateView(LoginRequiredMixin, CreateView):
     model = Tag
     template_name = "tags/new.html"
     fields = ["name"]
