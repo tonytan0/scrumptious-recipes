@@ -9,7 +9,44 @@
 </head>
 
 <body>
-
+  <header>
+    <nav>
+      <ul>
+        <li>
+          <a href="{% url 'home' %}">Scrumptious</a>
+        </li>
+        <li>
+          <a href="{% url 'admin:index' %}">Admin</a>
+        </li>
+        <li>
+          <a href="{% url 'recipe_new' %}">Write a recipe</a>
+        </li>
+      </ul>
+    </nav>
+  </header>
+  <main class="tag-grid">
+    {% for tag in tag_list %}
+    <div class="tag-card">
+      <h2 class="tag-card-title">
+        <a href="{% url 'tag_detail' tag.pk %}">{{ tag.name }}</a>
+      </h2>
+      <p class="tag-card-date">{{ tag.updated }}</p>
+    </div>
+    {% endfor %}
+  </main>
+  <footer>
+    <span>
+      {% if page_obj.has_previous %}
+      <a href=">page={{ page_obj.previous_page_number }}">Previous</a>
+      {% endif %}
+      <span>
+        Page {{ page_obj.number }} of {{page_obj.paginator.num_pages }}
+      </span>
+      {% if page_obj.has_next %}
+      <a href="?page={{ page_obj.next_page_number }}">Next</a>
+      {% endif %}
+    </span>
+  </footer>
 </body>
 
 </html>
