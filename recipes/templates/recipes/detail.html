@@ -41,6 +41,7 @@
     </form>
     <p>Tags: {% for tag in recipe.tags.all %}{{ tag.word }} {% endfor %}</p>
     {{ recipe.description | markdownify }}
+    <h2>by: {{ recipe.author | default_if_none:"Unknown" }}</h2>
     <h2>Ingredients</h2>
     <table>
       <thead>
@@ -66,6 +67,7 @@
       {% endfor %}
     </ol>
   </main>
+  
 </body>
 
 </html>
