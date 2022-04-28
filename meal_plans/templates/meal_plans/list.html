@@ -20,12 +20,12 @@
 </div>
 {% endblock pagination %} {% block content %}
 <main class="recipe-grid">
-  {% for tag in tag_list %}
+  {% for meal in meal_plans_list %}
   <div class="recipe-card">
     <h2 class="recipe-card-title">
-      <a href="{% url 'tag_detail' tag.id %}">{{ tag.name }}</a>
+      <a href="{% url 'meal_plans_detail' meal.id %}">{{ meal.name }}</a>
     </h2>
-    {% for recipe in tag.recipes.all %}
+    {% for meal in meal_plans.recipes.all %}
     <p>
       <a href="{% url 'recipe_detail' recipe.pk %}">{{ recipe.name }}</a>
     </p>
@@ -33,10 +33,10 @@
   </div>
   {% empty %}
   <div>
-    <h1>No tags, yet</h1>
+    <h1>No meal plans, yet</h1>
     <p>
       Would you like to
-      <a href="{% url 'tag_new' %}">create</a>
+      <a href="{% url 'meal_plans_new' %}">create</a>
       one?
     </p>
   </div>
