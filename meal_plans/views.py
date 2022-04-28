@@ -17,8 +17,8 @@ class MealPlanListView(ListView):
     template_name = "meal_plans/list.html"
     paginate_by = 3
 
-    # def get_queryset(self):
-    #     return MealPlan.objects.filter(over=self.request.user)
+    def get_queryset(self):
+        return MealPlan.objects.filter(owner=self.request.user)
 
 
 class MealPlanCreateView(LoginRequiredMixin, CreateView):
