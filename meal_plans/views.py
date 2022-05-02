@@ -1,4 +1,4 @@
-from django import views
+from django.shortcuts import redirect
 from django.urls import reverse_lazy
 
 from django.views.generic.list import ListView
@@ -24,7 +24,7 @@ class MealPlanListView(ListView):
 class MealPlanCreateView(LoginRequiredMixin, CreateView):
     model = MealPlan
     template_name = "meal_plans/new.html"
-    fields = ["name", "date", "owner", "recipes"]
+    fields = ["name", "date", "recipes"]
     success_url = reverse_lazy("recipes_list")
 
     def form_valid(self, form):
@@ -32,7 +32,7 @@ class MealPlanCreateView(LoginRequiredMixin, CreateView):
         plan.owner = self.request.user
         plan.save()
         form.save_m2m()
-        return redirect("meal_plans_detail", pk=plan.id)
+        return redirect("meal_plans_list")
 
 
 class MealPlanDetailView(DetailView):
@@ -54,6 +54,9 @@ class MealPlanUpdateView(LoginRequiredMixin, UpdateView):
     def get_success_url(self) -> str:
         return reverse_lazy("meal_plans_detail", args=[self.object.id])
 
+    def __str__(self):
+        return str(self.name)
+
 
 class MealPlanDeleteView(LoginRequiredMixin, DeleteView):
     model = MealPlan
@@ -62,3 +65,6 @@ class MealPlanDeleteView(LoginRequiredMixin, DeleteView):
 
     def get_queryset(self):
         return MealPlan.objects.filter(owner=self.request.user)
+
+    def __str__(self):
+        return str(self.name)

@@ -22,14 +22,14 @@ class TagDetailView(DetailView):
 class TagCreateView(LoginRequiredMixin, CreateView):
     model = Tag
     template_name = "tags/new.html"
-    fields = ["name"]
+    fields = ["name", "recipe"]
     success_url = reverse_lazy("recipes_list")
 
 
 class TagUpdateView(LoginRequiredMixin, UpdateView):
     model = Tag
     template_name = "tags/edit.html"
-    fields = ["name"]
+    fields = ["name", "recipes"]
     success_url = reverse_lazy("tag_list")
 
 

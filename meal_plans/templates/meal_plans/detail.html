@@ -4,8 +4,8 @@
 {% block content%}
   <main class="recipe-detail">
     <div>
-      <a href="{% url 'recipe_edit' recipe.id %}">Edit</a>
-      <a href="{% url 'recipe_delete' recipe.id %}">Delete</a>
+      <a href="{% url 'mealplans_detail' recipe.id %}">Edit</a>
+      <a href="{% url 'mealplans_delete' recipe.id %}">Delete</a>
       <a href="{% url 'tag_new' %}">NewTAG!</a>
     </div>
     {% if recipe.image %}

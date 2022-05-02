@@ -1,6 +1,8 @@
 {% extends 'base.html' %} 
 {% load static %}
 {% load markdownify %}
+
+{% load resizer %}
 {% block content%}
   <main class="recipe-detail">
     <div>
@@ -12,11 +14,21 @@
       <img src="{{ recipe.image }}" class="pull-right">
     {% endif %}
     <h1>{{ recipe.name }}</h1>
+    <h2>by: {{ recipe.author | default_if_none:"Unknown" }}</h2>
     <p>
       Created on {{ recipe.created }} |
       Updated on {{ recipe.updated }}
     </p>
-    <form method="post" action="{% url 'recipe_rating' recipe.id %}">
+    {% if recipe.servings %}
+    <p>
+      Serves {{ servings|default_if_none:recipe.servings }}
+    </p>  
+    <form method="GET">
+      <input required type="number" name="servings">
+      <button>Resize</button>
+    </form>
+    {% endif %}
+    <form method="POST" action="{% url 'recipe_rating' recipe.id %}">
       {% csrf_token %}
       <div class="rating-form-grid">
         {{ rating_form.as_p }}
@@ -37,10 +49,17 @@
       <tbody>
         {% for ingredient in recipe.ingredients.all %}
           <tr>
-            <td>{{ ingredient.amount }}</td>
+            <td>{{ ingredient|resize_to:servings }}</td> 
             <td>{{ ingredient.measure.name }}</td>
             <td>{{ ingredient.food.name }}</td>
-          </tr>
+            {% comment %} <td>
+              <form method="POST" action="{% url 'ShoppingItem_create' %}">
+                {% csrf_token %}
+                <input type="hidden" name="ingredient_id" value="{{ ingredient.id }}">
+                <button>+ shopping list</button>
+              </form>
+            </td>
+          </tr> {% endcomment %}
         {% endfor %}
       </tbody>
     </table>

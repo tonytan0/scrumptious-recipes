@@ -19,13 +19,16 @@
   </span>
 </div>
 {% endblock pagination %} {% block content %}
-<main class="recipe-grid">
-  {% for meal in meal_plans_list %}
+<main class="recipe-card">
+  {% for meal in mealplan_list %}
   <div class="recipe-card">
     <h2 class="recipe-card-title">
       <a href="{% url 'meal_plans_detail' meal.id %}">{{ meal.name }}</a>
     </h2>
-    {% for meal in meal_plans.recipes.all %}
+
+
+
+    {% comment %} {% for meal in meal_plans.recipes.all %}
     <p>
       <a href="{% url 'recipe_detail' recipe.pk %}">{{ recipe.name }}</a>
     </p>
@@ -39,7 +42,7 @@
       <a href="{% url 'meal_plans_new' %}">create</a>
       one?
     </p>
-  </div>
+  </div> {% endcomment %}
   {% endfor %}
 </main>
 {% endblock content %}
