@@ -18,7 +18,7 @@ pycodestyle==2.8.0
 pyflakes==2.4.0
 pyparsing==3.0.7
 six==1.16.0
-sqlparse==0.4.2
+sqlparse==0.4.4
 tomli==2.0.1
 webencodings==0.5.1
 whitenoise==6.0.0
